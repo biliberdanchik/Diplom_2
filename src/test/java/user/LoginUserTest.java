@@ -46,7 +46,7 @@ public class LoginUserTest {
         user = new User(faker.internet().emailAddress(), faker.bothify("#?#?#?#"), faker.name().firstName());
         credentials = Credentials.fromUser(user);
         accessToken = client.createUserAndGetToken(user);
-
+        //Изменяем email
         credentials.setEmail(faker.internet().emailAddress());
         ValidatableResponse authorizationResponse = client.loginUser(credentials);
         authorizationResponse.statusCode(401)
@@ -59,7 +59,7 @@ public class LoginUserTest {
         user = new User(faker.internet().emailAddress(), faker.bothify("#?#?#?#"), faker.name().firstName());
         credentials = Credentials.fromUser(user);
         accessToken = client.createUserAndGetToken(user);
-
+        //Изменяем пароль
         credentials.setPassword(faker.bothify("#?#?#?#"));
         ValidatableResponse authorizationResponse = client.loginUser(credentials);
         authorizationResponse.statusCode(401)

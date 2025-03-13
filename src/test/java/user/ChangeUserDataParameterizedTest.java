@@ -29,6 +29,7 @@ public class ChangeUserDataParameterizedTest {
     public static Object[][] getDataTest() {
         Faker faker = new Faker();
         return new Object[][] {
+                //Параметризация с различными наборами данных пользователя
                 {new User(faker.internet().emailAddress(), null, null)},
                 {new User(null, faker.bothify("#?#?#?#"), null)},
                 {new User(null, null, faker.name().firstName())},

@@ -28,8 +28,9 @@ public class ChangeUserTest {
     public void checkingChangesDataAuthorizedUserSuccessful() {
         User user = new User(faker.internet().emailAddress(), faker.bothify("#?#?#?#"), faker.name().firstName());
         accessToken = client.createUserAndGetToken(user);
-
+        //Данные для изменения
         User changedUser = new User(faker.internet().emailAddress(), faker.bothify("#?#?#?#"), faker.name().firstName());
+
         ValidatableResponse changeResponse = client.changeUser(accessToken, changedUser);
         changeResponse.statusCode(200)
                 .body("success", equalTo(true))

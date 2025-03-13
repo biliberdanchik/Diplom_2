@@ -32,6 +32,7 @@ public class CreateUserWithoutRequiredFieldParameterizedTest {
     public static Object[][] getDataUser() {
         Faker faker = new Faker();
         return new Object[][] {
+                //Параметризация с отсутствием различных данных
                 {null, faker.bothify("#??##?#?#?"), faker.name().firstName()},
                 {faker.internet().emailAddress(), null, faker.name().firstName()},
                 {faker.internet().emailAddress(), faker.bothify("#??##?#?#?"), null}

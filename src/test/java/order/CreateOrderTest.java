@@ -33,7 +33,9 @@ public class CreateOrderTest {
         User user = new User(faker.internet().emailAddress(), faker.bothify("#?#?#?#"), faker.name().firstName());
         accessToken = client.createUserAndGetToken(user);
 
+        //Получаем список доступных ингредиентов
         SetIngredients ingredients = client.getIngredients();
+        //Формируем тело сообщения с двумя случайными ингредиентами
         String requestBody = String.format("{\"ingredients\": [\"%s\",\"%s\"]}", ingredients.chooseRandomIngredient(), ingredients.chooseRandomIngredient());
 
         ValidatableResponse creationsOrderResponse = client.createOrder(accessToken, requestBody);
@@ -46,7 +48,9 @@ public class CreateOrderTest {
     @Test
     @DisplayName("Создание заказа без авторизации с наличием ингредиентов")
     public void checkingCreateOrderWithoutAuthorizationWithIngredientsSuccessful() {
+        //Получаем список доступных ингредиентов
         SetIngredients ingredients = client.getIngredients();
+        //Формируем тело сообщения с двумя случайными ингредиентами
         String requestBody = String.format("{\"ingredients\": [\"%s\",\"%s\"]}", ingredients.chooseRandomIngredient(), ingredients.chooseRandomIngredient());
 
         ValidatableResponse creationsOrderResponse = client.createOrder("", requestBody);
@@ -60,8 +64,9 @@ public class CreateOrderTest {
     public void checkingCreateOrderWithAuthorizationWithoutIngredientsUnsuccessful() {
         User user = new User(faker.internet().emailAddress(), faker.bothify("#?#?#?#"), faker.name().firstName());
         accessToken = client.createUserAndGetToken(user);
-
+        //Тело сообщения без ингредиентов
         String requestBody = "{\"ingredients\": []}";
+
         ValidatableResponse creationsOrderResponse = client.createOrder(accessToken, requestBody);
         creationsOrderResponse.statusCode(400)
                 .body("message", equalTo("Ingredient ids must be provided"));
@@ -70,7 +75,9 @@ public class CreateOrderTest {
     @Test
     @DisplayName("Создание заказа без авторизации и без ингредиентов")
     public void checkingCreateOrderWithoutAuthorizationWithoutIngredientsUnsuccessful() {
+        //Тело сообщения без ингредиентов
         String requestBody = "{\"ingredients\": []}";
+
         ValidatableResponse creationsOrderResponse = client.createOrder("", requestBody);
         creationsOrderResponse.statusCode(400)
                 .body("message", equalTo("Ingredient ids must be provided"));
@@ -81,8 +88,9 @@ public class CreateOrderTest {
     public void checkingCreateOrderWithInvalidHashIngredientsUnsuccessful() {
         User user = new User(faker.internet().emailAddress(), faker.bothify("#?#?#?#"), faker.name().firstName());
         accessToken = client.createUserAndGetToken(user);
-
+        //В тело сообщения генерируем хэш из случайных символов
         String requestBody = String.format("{\"ingredients\": [\"%s\",\"%s\"]}", faker.bothify("##?#?#?##?#?#####?????#?"), faker.bothify("##?#?#?##?#?#####?????#?"));
+
         ValidatableResponse creationsOrderResponse = client.createOrder(accessToken, requestBody);
         creationsOrderResponse.statusCode(500);
     }

@@ -45,6 +45,7 @@ public class GetOrdersUserTest {
         //Сохраняем id созданного заказа
         String orderId = client.createOrder(accessToken, requestBody).extract().path("order._id");
 
+        //Проверяем, что в теле ответа находится id заказа, который был оформлен
         ValidatableResponse response = client.getOrdersUser(accessToken);
         response.statusCode(200)
                 .body("orders[0]._id", equalTo(orderId));
